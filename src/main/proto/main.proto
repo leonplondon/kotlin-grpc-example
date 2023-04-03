@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package pro.darkgod.proto.commons;
+
+option java_multiple_files = true;
+
+import 'service_one.proto';
+import 'service_two.proto';

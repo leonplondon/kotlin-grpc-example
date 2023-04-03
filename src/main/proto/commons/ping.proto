@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package pro.darkgod.proto.commons;
+
+option java_multiple_files = true;
+
+import 'google/protobuf/timestamp.proto';
+
+message Ping {
+    string caller = 1;
+}
+
+message Pong {
+  string service = 1;
+  google.protobuf.Timestamp timestamp = 2;
+}

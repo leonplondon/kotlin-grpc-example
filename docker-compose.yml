@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  svc-one:
+    build:
+      context: .
+      dockerfile: ServiceOne.Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    networks:
+      - backend
+    healthcheck:
+      test: /app/grpc_health_probe --addr=:8080
+      interval: 30s
+      retries: 3
+      start_period: 0s
+      timeout: 5s
+  svc-two:
+    build:
+      context: .
+      dockerfile: ServiceTwo.Dockerfile
+    depends_on:
+      svc-one:
+        condition: service_healthy
+    ports:
+      - "9090:9090"
+      - "9091:9091"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge

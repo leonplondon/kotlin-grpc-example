@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package pro.darkgod.proto;
+
+import 'commons/ping.proto';
+
+service ServiceOne {
+  rpc ping(pro.darkgod.proto.commons.Ping) returns (pro.darkgod.proto.commons.Pong);
+}
