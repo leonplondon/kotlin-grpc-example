@@ -28,6 +28,26 @@ services:
       - "9091:9091"
     networks:
       - backend
+    healthcheck:
+      test: /app/grpc_health_probe --addr=:9090
+      interval: 30s
+      retries: 3
+      start_period: 0s
+      timeout: 5s
+  jaeger:
+    image: jaegertracing/all-in-one:1.43.0
+    environment:
+      COLLECTOR_OTLP_ENABLED: true
+    ports:
+      - "6831-6832:6831-6832"
+      - "5778:5778"
+      - "16686:16686"
+      - "4317-4318:4317-4318"
+      - "14250:14250" # The gRPC endpoint
+      - "14268-14269:14268-14269"
+      - "9411:9411" # The real one
+    networks:
+      - backend
 
 networks:
   backend:

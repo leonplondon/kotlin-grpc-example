@@ -37,9 +37,11 @@ COPY --from=tools /tools/otel-java-agent.jar /app
 COPY --from=tools /tools/grpc_health_probe /app
 
 ENV JAVA_OPTS="-javaagent:/app/otel-java-agent.jar"
-ENV OTEL_SERVICE_NAME="svcone"
-ENV OTEL_TRACES_EXPORTER=logging
+ENV OTEL_SERVICE_NAME="svc-one"
 ENV OTEL_METRICS_EXPORTER=logging
+ENV OTEL_TRACES_EXPORTER=jaeger
+ENV OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14250
+ENV OTEL_EXPORTER_JAEGER_TIMEOUT=10000
 
 ENV CONTAINER=true
 ENV GRPC_PORT=8080

@@ -2,6 +2,7 @@ package pro.darkgod.config
 
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
+import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Lazy
@@ -16,18 +17,18 @@ import pro.darkgod.proto.ServiceTwoGrpc
 @Lazy
 @Configuration
 class Channels {
-  val logChannels = logMessage(Channels::class.java.simpleName)
+  private val logger = LoggerFactory.getLogger(Channels::class.java)
 
   @Bean
   fun serviceOne(): ServiceOneGrpc.ServiceOneBlockingStub {
-    logChannels("Creating bean serviceOne")
+    logger.info("Creating bean serviceOne")
     val channel = createChannel(SERVICE_ONE_ID, SERVICE_ONE_PORT)
     return ServiceOneGrpc.newBlockingStub(channel)
   }
 
   @Bean
   fun serviceTwo(): ServiceTwoGrpc.ServiceTwoBlockingStub {
-    logChannels("Creating bean serviceTwo")
+    logger.info("Creating bean serviceTwo")
     val channel = createChannel(SERVICE_TWO_ID, SERVICE_TWO_PORT)
     return ServiceTwoGrpc.newBlockingStub(channel)
   }

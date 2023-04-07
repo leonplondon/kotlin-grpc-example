@@ -1,11 +1,11 @@
 package pro.darkgod.adapters.grpc
 
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import pro.darkgod.adapters.grpc.model.from
 import pro.darkgod.adapters.grpc.model.toDomain
 import pro.darkgod.application.outbound.PingOneService
-import pro.darkgod.config.logMessage
 import pro.darkgod.domain.Ping
 import pro.darkgod.domain.Pong
 import pro.darkgod.proto.ServiceOneGrpc.ServiceOneBlockingStub
@@ -14,12 +14,12 @@ import pro.darkgod.proto.ServiceOneGrpc.ServiceOneBlockingStub
 class PingOneServiceImpl @Autowired constructor(
   private val serviceOneBlockingStub: ServiceOneBlockingStub,
 ) : PingOneService {
-  private val logPingTwoService = logMessage(PingOneServiceImpl::class.java.simpleName)
+  private val logger = LoggerFactory.getLogger(PingOneServiceImpl::class.java)
 
   override fun ping(ping: Ping): Pong {
     val pong = serviceOneBlockingStub.ping(from(ping))
       .toDomain()
-    logPingTwoService("Response $pong")
+    logger.info("Response $pong")
     return pong
   }
 }

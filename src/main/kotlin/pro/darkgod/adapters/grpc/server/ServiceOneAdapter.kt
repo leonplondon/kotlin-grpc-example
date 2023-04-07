@@ -2,16 +2,14 @@ package pro.darkgod.adapters.grpc.server
 
 import io.grpc.health.v1.HealthCheckResponse.ServingStatus
 import io.grpc.stub.StreamObserver
+import org.slf4j.LoggerFactory
 import pro.darkgod.adapters.grpc.model.createdNow
 import pro.darkgod.adapters.grpc.model.unaryResponse
 import pro.darkgod.config.Constants.SERVICE_ONE_ID
 import pro.darkgod.config.HealthChecker
-import pro.darkgod.config.logMessage
 import pro.darkgod.proto.ServiceOneGrpc
 import pro.darkgod.proto.commons.Ping
 import pro.darkgod.proto.commons.Pong
-
-val logSO = logMessage(SERVICE_ONE_ID)
 
 class ServiceOneAdapter(healthChecker: HealthChecker) : ServiceOneGrpc.ServiceOneImplBase() {
 
@@ -22,8 +20,10 @@ class ServiceOneAdapter(healthChecker: HealthChecker) : ServiceOneGrpc.ServiceOn
     )
   }
 
+  private val logger = LoggerFactory.getLogger(ServiceOneAdapter::class.java)
+
   override fun ping(request: Ping?, responseObserver: StreamObserver<Pong>?) {
-    logSO("Ping request")
+    logger.info("Ping request")
 
     val pong = Pong.newBuilder()
       .createdNow()
